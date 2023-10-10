@@ -1,1 +1,1 @@
-# junior_pyrhon_developer_support
+# junior_python_developer_support
