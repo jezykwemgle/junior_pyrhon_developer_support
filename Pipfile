@@ -1,0 +1,23 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+django = "*"
+requests = "*"
+flake8 = "*"
+isort = "*"
+black = "*"
+flake8-builtins = "*"
+flake8-import-order = "*"
+flake8-print = "*"
+pre-commit = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.11"
+
+[scripts]
+server = 'python src/manage.py runserver'
