@@ -1,0 +1,30 @@
+{
+    "2023-10-10 19:42:36.660715": {
+        "results": {
+            "currency_from": "EUR",
+            "currency_to": "USD",
+            "rate": 1.06022
+        }
+    },
+    "2023-10-10 19:42:43.112890": {
+        "results": {
+            "currency_from": "EUR",
+            "currency_to": "UAH",
+            "rate": 38.8943
+        }
+    },
+    "2023-10-10 19:42:52.431158": {
+        "results": {
+            "currency_from": "PLN",
+            "currency_to": "UAH",
+            "rate": 8.53113
+        }
+    },
+    "2023-10-10 19:42:57.039309": {
+        "results": {
+            "currency_from": "PLN",
+            "currency_to": "EUR",
+            "rate": 0.22017
+        }
+    }
+}

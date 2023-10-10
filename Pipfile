@@ -10,11 +10,11 @@ flake8 = "*"
 isort = "*"
 black = "*"
 flake8-builtins = "*"
-flake8-import-order = "*"
 flake8-print = "*"
 pre-commit = "*"
 
 [dev-packages]
+pydantic = "*"
 
 [requires]
 python_version = "3.11"
