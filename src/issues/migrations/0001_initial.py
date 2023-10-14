@@ -10,7 +10,7 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name="Role",
+            name="Issue",
             fields=[
                 (
                     "id",
@@ -21,11 +21,16 @@ class Migration(migrations.Migration):
                         verbose_name="ID",
                     ),
                 ),
-                ("value", models.CharField(max_length=255)),
+                ("title", models.CharField(max_length=255)),
+                ("body", models.TextField()),
+                ("timestamp", models.DateTimeField(auto_now_add=True)),
+                ("junior_id", models.IntegerField()),
+                ("senior_id", models.IntegerField()),
+                ("status", models.CharField(max_length=255)),
             ],
         ),
         migrations.CreateModel(
-            name="User",
+            name="Message",
             fields=[
                 (
                     "id",
@@ -36,10 +41,10 @@ class Migration(migrations.Migration):
                         verbose_name="ID",
                     ),
                 ),
-                ("email", models.EmailField(max_length=254, unique=True)),
-                ("first_name", models.CharField(max_length=255)),
-                ("last_name", models.CharField(max_length=255)),
-                ("role", models.IntegerField()),
+                ("body", models.TextField()),
+                ("issue_id", models.IntegerField()),
+                ("user_id", models.IntegerField()),
+                ("timestamp", models.DateTimeField(auto_now_add=True)),
             ],
         ),
     ]
