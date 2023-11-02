@@ -6,6 +6,7 @@ class Role(StrEnum):
     JUNIOR = "JR"
     SENIOR = "SR"
 
+    @classmethod
     def values(cls):
         results = []
         for element in cls:

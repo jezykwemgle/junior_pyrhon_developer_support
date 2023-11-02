@@ -1,30 +1,25 @@
-import json
-
-from django.http import JsonResponse
+from rest_framework import permissions
+from rest_framework.viewsets import ModelViewSet
 
 from .models import User
-
-# def all_users(request):
-#     users = User.objects.all()
-#     attrs = {"id", "email", "first_name", "last_name", "role"}
-#     result: list[dict] = []
-#
-#     for user in users:
-#         result.append({attr: getattr(user, attr) for attr in attrs})
-#     return JsonResponse({"result": result})
+from .serializers import UserPrivateSerializer, UserPublicSerializer
 
 
-def create(request):
-    if request.method != "POST":
-        raise NotImplementedError("Only POST requests")
+class UserAPISet(ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserPublicSerializer
+    permission_classes = [permissions.AllowAny]
 
-    data: dict = json.loads(request.body)
-    user = User.objects.create(**data)
+    def get_permissions(self):
+        if self.action == "create":
+            return [permissions.AllowAny()]
+        elif self.action == "list" or "retrieve":
+            return [permissions.IsAuthenticated()]
+        return self.permission_classes
 
-    if not user:
-        raise Exception("Can not create user")
-
-    attrs = {"id", "email", "first_name", "last_name", "role"}
-    payload = {attr: getattr(user, attr) for attr in attrs}
-
-    return JsonResponse(payload)
+    def get_serializer_class(self):
+        if self.action == "create":
+            return UserPrivateSerializer
+        elif self.action == "list" or self.action == "retrieve":
+            return self.serializer_class
+        return self.serializer_class

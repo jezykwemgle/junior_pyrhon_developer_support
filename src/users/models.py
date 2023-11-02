@@ -6,6 +6,7 @@ from users.managers import UserManager
 
 
 class User(AbstractUser, PermissionsMixin):
+    username = None  # TODO: does it look good???
     email = models.EmailField(max_length=255, unique=True)
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
@@ -14,14 +15,12 @@ class User(AbstractUser, PermissionsMixin):
     is_active = models.BooleanField(default=True)
 
     role = models.CharField(
-        max_length=2, default=Role.JUNIOR
-    )  # TODO: constants choices=Role.values()
+        max_length=2, default=Role.JUNIOR, choices=Role.values()
+    )
 
     objects = UserManager()
 
-    EMAIL_FIELD = (
-        "email"  # email = models.EmailField(max_length=255, unique=True)
-    )
+    EMAIL_FIELD = "email"
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
 
@@ -41,29 +40,3 @@ class User(AbstractUser, PermissionsMixin):
             return f"{self.first_name} {self.last_name}"
         else:
             return self.email
-
-
-# class Role(models.Model):
-#     ROLES = [
-#         ('ADMIN', 'admin'),
-#         ('JUNIOR', 'junior'),
-#         ('OPERATOR', 'operator')
-#     ]
-#     value = models.CharField(max_length=10,
-#                              choices=ROLES,
-#                              default='JUNIOR')
-#
-#     def __str__(self):
-#         return self.value
-
-
-#
-# class User(models.Model):
-#     email = models.EmailField(unique=True)
-#     first_name = models.CharField(max_length=255)
-#     last_name = models.CharField(max_length=255)
-#     role = models.ForeignKey(Role, on_delete=models.CASCADE)
-#
-#     def __str__(self):
-#         return f"{self.first_name} {self.last_name}"
-#
