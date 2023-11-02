@@ -1,6 +1,8 @@
 from django.conf import settings
 from django.db import models
 
+from issues.constants import Status
+
 
 class Issue(models.Model):
     title = models.CharField(max_length=255)
@@ -17,7 +19,9 @@ class Issue(models.Model):
         null=True,
         related_name="senior_issues",
     )
-    status = models.CharField(max_length=3)  # TODO: choices=Status.values()
+    status = models.CharField(
+        max_length=3, default=Status.OPENED, choices=Status.values()
+    )
 
     class Meta:
         db_table = "issues"

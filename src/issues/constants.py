@@ -6,6 +6,7 @@ class Status(StrEnum):
     ASSIGNED = "ASG"
     CLOSED = "CLS"
 
+    @classmethod
     def values(cls):
         results = []
         for element in cls:
