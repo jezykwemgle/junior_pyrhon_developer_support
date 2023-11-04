@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from issues.models import Issue
+from issues.models import Issue, Message
 
 
 class IssueListSerializer(serializers.ModelSerializer):
@@ -25,3 +25,28 @@ class IssuePostSerializer(serializers.ModelSerializer):
     def validate(self, attrs):
         attrs["junior"] = self.context["request"].user
         return attrs
+
+
+class MessagePostSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Message
+        fields = ["id", "body", "issue", "user", "timestamp"]
+        read_only_fields = ["id", "issue", "user", "timestamp"]
+
+    def validate(self, attrs):
+        request = self.context["request"]
+        issue_id = request.parser_context["kwargs"]["issue_id"]
+
+        try:
+            issue = Issue.objects.get(id=issue_id)
+        except Issue.DoesNotExist:
+            raise serializers.ValidationError("Issue does not exist")
+        attrs["issue"] = issue
+        attrs["user"] = request.user
+        return attrs
+
+
+class MessageGetSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Message
+        fields = ["id", "body", "user", "timestamp"]
