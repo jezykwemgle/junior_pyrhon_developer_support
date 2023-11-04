@@ -12,6 +12,9 @@ black = "*"
 flake8-builtins = "*"
 flake8-print = "*"
 pre-commit = "*"
+djangorestframework = "*"
+djangorestframework-simplejwt = "*"
+serializers = "*"
 
 [dev-packages]
 
