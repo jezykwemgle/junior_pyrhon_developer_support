@@ -1,3 +1,6 @@
+import uuid
+
+from django.conf import settings
 from django.contrib.auth.models import AbstractUser, PermissionsMixin
 from django.db import models
 
@@ -12,7 +15,7 @@ class User(AbstractUser, PermissionsMixin):
     last_name = models.CharField(max_length=255)
 
     is_staff = models.BooleanField(default=False)
-    is_active = models.BooleanField(default=True)
+    is_active = models.BooleanField(default=False)
 
     role = models.CharField(
         max_length=2, default=Role.JUNIOR, choices=Role.values()
@@ -40,3 +43,11 @@ class User(AbstractUser, PermissionsMixin):
             return f"{self.first_name} {self.last_name}"
         else:
             return self.email
+
+
+class ActivationKey(models.Model):
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+    )
+    key = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
