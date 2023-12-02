@@ -17,10 +17,19 @@ class UserAPISet(ModelViewSet):
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
 
-        user = User.objects.get(email=serializer.data["email"])
+        try:
+            user = User.objects.get(email=serializer.data["email"])
+        except User.DoesNotExist:
+            return Response(
+                {"message": "User does not exist."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
         activation_key = ActivationKey.objects.create(user=user)
 
-        send_activation_email(serializer.data["email"], activation_key.key)
+        send_activation_email.delay(
+            serializer.data["email"], activation_key.key
+        )
 
         return Response(
             serializer.data, status=status.HTTP_201_CREATED, headers=headers
@@ -38,11 +47,16 @@ class UserAPISet(ModelViewSet):
             user.is_active = True
             user.save()
             activation_key.delete()
-            send_response_email(user.email)
+            send_response_email.delay(user.email)
             return Response({"message": "User activated successfully."})
         except ActivationKey.DoesNotExist:
             return Response(
                 {"message": "Something went wrong."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        except User.DoesNotExist:
+            return Response(
+                {"message": "User does not exist."},
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
