@@ -156,3 +156,6 @@ EMAIL_HOST = "localhost"
 EMAIL_PORT = 1025
 EMAIL_HOST_USER = "mailhog"
 EMAIL_HOST_PASSWORD = "mailhog"
+
+
+CELERY_BROKER_URL= 'redis://localhost:6379/0'

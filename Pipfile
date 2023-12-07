@@ -15,6 +15,7 @@ pre-commit = "*"
 djangorestframework = "*"
 djangorestframework-simplejwt = "*"
 serializers = "*"
+celery = {version = "==5.3.4", extras = ["redis"]}
 
 [dev-packages]
 
